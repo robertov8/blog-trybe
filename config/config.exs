@@ -10,6 +10,10 @@ use Mix.Config
 config :blog,
   ecto_repos: [Blog.Repo]
 
+config :blog, Blog.Repo,
+  migration_primary_key: [type: :binary_id],
+  migration_foreign_key: [type: :binary_id]
+
 # Configures the endpoint
 config :blog, BlogWeb.Endpoint,
   url: [host: "localhost"],

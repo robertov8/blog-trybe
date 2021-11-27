@@ -8,7 +8,10 @@
 use Mix.Config
 
 config :blog,
-  ecto_repos: [Blog.Repo]
+  ecto_repos: [Blog.Repo],
+  guardian_opts: [
+    ttl: {1, :hour}
+  ]
 
 config :blog, Blog.Repo,
   migration_primary_key: [type: :binary_id],
@@ -21,6 +24,14 @@ config :blog, BlogWeb.Endpoint,
   render_errors: [view: BlogWeb.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: Blog.PubSub,
   live_view: [signing_salt: "qgJ4lC6A"]
+
+config :blog, BlogWeb.Auth.Guardian,
+  issuer: "blog",
+  secret_key: "2amuCQSJtPu181jKluFkAwDsRuvpoTb2t1j0hZ4lzI7mWCNoZy7SwLCYmkj8NDqK"
+
+config :blog, BlogWeb.Auth.Pileline,
+  module: BlogWeb.Auth.Guardian,
+  error_handler: BlogWeb.Auth.ErrorHandler
 
 # Configures Elixir's Logger
 config :logger, :console,

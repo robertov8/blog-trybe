@@ -3,13 +3,27 @@ defmodule BlogWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug ProperCase.Plug.SnakeCaseParams
   end
 
-  scope "/api", BlogWeb do
+  pipeline :auth do
+    plug BlogWeb.Auth.Pileline
+  end
+
+  scope "/", BlogWeb do
     pipe_through :api
+
+    post "/user", UserController, :create
+    post "/login", UserController, :login
+
+    get "/health", HealthController, :check
   end
 
-  scope "/health", BlogWeb do
-    get("/", HealthController, :check)
+  scope "/", BlogWeb do
+    pipe_through [:api, :auth]
+
+    get "/user", UserController, :index
+    get "/user/:uuid", UserController, :show
+    delete "/user/me", UserController, :delete
   end
 end

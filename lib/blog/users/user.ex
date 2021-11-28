@@ -30,6 +30,8 @@ defmodule Blog.Users.User do
     |> validate_email_format()
     |> validate_length(:password, min: 6, message: "length must be 6 characters long")
     |> unique_constraint(:email, message: "Usuário já existe")
+    |> update_change(:email, &String.downcase/1)
+    |> update_change(:email, &String.trim/1)
     |> put_password_hash()
   end
 
@@ -39,6 +41,8 @@ defmodule Blog.Users.User do
     |> validate_not_nil(attrs, :email, "is not allowed to be empty")
     |> validate_not_nil(attrs, :password, "is not allowed to be empty")
     |> validate_required(@required_params, message: "is required")
+    |> update_change(:email, &String.downcase/1)
+    |> update_change(:email, &String.trim/1)
     |> validate_email_format()
     |> apply_action(:login)
   end

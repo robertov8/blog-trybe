@@ -9,7 +9,8 @@ config :blog, Blog.Repo,
   username: "postgres",
   password: "postgres",
   database: "blog_test#{System.get_env("MIX_TEST_PARTITION")}",
-  hostname: "localhost",
+  hostname: "0.0.0.0",
+  port: 5434,
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
@@ -20,3 +21,5 @@ config :blog, BlogWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :pbkdf2_elixir, :rounds, 1

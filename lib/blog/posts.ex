@@ -25,7 +25,7 @@ defmodule Blog.Posts do
   end
 
   def list_posts_by_term(term \\ "") do
-    from(q in Post, where: like(q.title, ^"%#{term}%"), or_where: like(q.content, ^"#{term}"))
+    from(q in Post, where: like(q.title, ^"%#{term}%") or like(q.content, ^"%#{term}%"))
     |> Repo.all()
     |> Repo.preload(:user)
   end
@@ -45,11 +45,8 @@ defmodule Blog.Posts do
 
   """
   def get_post_by_uuid(uuid) do
-    with {:ok, uuid} <- UUID.cast(uuid),
-         {:ok, %Post{} = post} <- get_post_by(%{id: uuid}) do
-      {:ok, post}
-    else
-      :error -> Error.build(:bad_request, "UUID inválido")
+    case get_post_by(%{id: uuid}) do
+      {:ok, %Post{} = post} -> {:ok, post}
       error -> error
     end
   end
@@ -127,11 +124,14 @@ defmodule Blog.Posts do
       {:ok, %Post{}}
 
       iex> delete_post(post)
-      {:error, %Ecto.Changeset{}}
+      {:error, %Error{}}
 
   """
   def delete_post(%Post{} = post) do
-    Repo.delete(post)
+    case Repo.delete(post, stale_error_field: true) do
+      {:ok, post} -> {:ok, post}
+      {:error, _changeset} -> {:error, Error.build(:not_found, "Post não existe")}
+    end
   end
 
   @doc """

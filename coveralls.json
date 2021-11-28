@@ -1,0 +1,14 @@
+{
+  "skip_files": [
+    "lib/blog/application.ex",
+    "lib/blog/repo.ex",
+    "lib/blog_web.ex",
+    "lib/blog_web/endpoint.ex",
+    "lib/blog_web/gettext.ex",
+    "lib/blog_web/telemetry.ex",
+    "lib/blog_web/auth/pipeline.ex",
+    "lib/blog_web/channels/user_socket.ex",
+    "lib/blog_web/views/error_helpers.ex",
+    "test/support"
+  ]
+}

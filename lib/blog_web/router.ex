@@ -1,13 +1,17 @@
 defmodule BlogWeb.Router do
   use BlogWeb, :router
 
+  alias BlogWeb.{Auth.Pileline, Plugs.UUIDChecker}
+  alias ProperCase.Plug.SnakeCaseParams
+
   pipeline :api do
     plug :accepts, ["json"]
-    plug ProperCase.Plug.SnakeCaseParams
+    plug UUIDChecker
+    plug SnakeCaseParams
   end
 
   pipeline :auth do
-    plug BlogWeb.Auth.Pileline
+    plug Pileline
   end
 
   scope "/", BlogWeb do
@@ -20,7 +24,7 @@ defmodule BlogWeb.Router do
   end
 
   scope "/user", BlogWeb do
-    pipe_through [:api, :auth]
+    pipe_through [:auth, :api]
 
     get "/", UserController, :index
     get "/:uuid", UserController, :show
@@ -28,7 +32,7 @@ defmodule BlogWeb.Router do
   end
 
   scope "/post", BlogWeb do
-    pipe_through [:api, :auth]
+    pipe_through [:auth, :api]
 
     get "/search", PostController, :search
     resources "/", PostController, param: "uuid", except: [:edit, :new]

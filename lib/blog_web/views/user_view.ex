@@ -1,8 +1,8 @@
 defmodule BlogWeb.UserView do
   use BlogWeb, :view
 
-  alias BlogWeb.UserView
   alias Blog.Users.User
+  alias BlogWeb.UserView
 
   def render("index.json", %{users: users}) do
     render_many(users, UserView, "user.json")

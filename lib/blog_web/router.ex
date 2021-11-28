@@ -19,11 +19,18 @@ defmodule BlogWeb.Router do
     get "/health", HealthController, :check
   end
 
-  scope "/", BlogWeb do
+  scope "/user", BlogWeb do
     pipe_through [:api, :auth]
 
-    get "/user", UserController, :index
-    get "/user/:uuid", UserController, :show
-    delete "/user/me", UserController, :delete
+    get "/", UserController, :index
+    get "/:uuid", UserController, :show
+    delete "/me", UserController, :delete
+  end
+
+  scope "/post", BlogWeb do
+    pipe_through [:api, :auth]
+
+    get "/search", PostController, :search
+    resources "/", PostController, param: "uuid", except: [:edit, :new]
   end
 end

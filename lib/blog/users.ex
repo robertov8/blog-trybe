@@ -29,7 +29,7 @@ defmodule Blog.Users do
   ## Examples
 
       iex> get_user_by_uuid("c263dd22-9025-4414-89e3-0801ac98a6b9")
-      %User{}
+      {:ok, %User{}}
 
       iex> get_user_by_uuid("123")
       {:error, reason}

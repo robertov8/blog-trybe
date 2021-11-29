@@ -7,7 +7,6 @@ defmodule Blog.Posts do
   alias Blog.Repo
 
   alias Blog.{Error, Posts.Post, Users.User}
-  alias Ecto.UUID
 
   @doc """
   Returns the list of posts.

@@ -11,6 +11,7 @@ defmodule Blog.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      docs: docs(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
         coveralls: :test,
@@ -54,7 +55,8 @@ defmodule Blog.MixProject do
       {:pbkdf2_elixir, "~> 1.4"},
       {:guardian, "~> 2.0.0"},
       {:ex_machina, "~> 2.7.0"},
-      {:excoveralls, "~> 0.10", only: :test}
+      {:excoveralls, "~> 0.10", only: :test},
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false}
     ]
   end
 
@@ -70,6 +72,55 @@ defmodule Blog.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+    ]
+  end
+
+  defp docs do
+    [
+      # Docs
+      main: "Blog",
+      name: "Blog",
+      logo: "assets/logo.png",
+      source_url: "https://github.com/robertov8/blog-trybe",
+      extras: ["README.md"],
+      groups_for_modules: groups_for_modules()
+    ]
+  end
+
+  defp groups_for_modules do
+    [
+      Users: [
+        Blog.Users,
+        Blog.Users.User
+      ],
+      Posts: [
+        Blog.Posts,
+        Blog.Posts.Post
+      ],
+      Plugs: [
+        BlogWeb.Plugs.UUIDChecker
+      ],
+      "BlogWeb Auth": [
+        BlogWeb.Auth.ErrorHandler,
+        BlogWeb.Auth.Guardian,
+        BlogWeb.Auth.Pileline,
+        BlogWeb.Auth.Guardian.Plug
+      ],
+      "BlogWeb Controller": [
+        BlogWeb.HealthController,
+        BlogWeb.UserController,
+        BlogWeb.PostController,
+        BlogWeb.FallbackController
+      ],
+      "BlogWeb View": [
+        BlogWeb.UserView,
+        BlogWeb.PostView
+      ],
+      Error: [
+        Blog.Error,
+        BlogWeb.ErrorHelpers,
+        BlogWeb.ErrorView
+      ]
     ]
   end
 end

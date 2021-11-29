@@ -1,6 +1,7 @@
+<div id="top"></div>
+
 <img alt="CircleCI" src="https://img.shields.io/circleci/build/github/robertov8/blog-trybe?style=for-the-badge">
 
-<div id="top"></div>
 
 <!-- PROJECT LOGO -->
 <br />

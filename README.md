@@ -2,7 +2,6 @@
 
 <img alt="CircleCI" src="https://img.shields.io/circleci/build/github/robertov8/blog-trybe?style=for-the-badge">
 
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">

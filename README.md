@@ -86,11 +86,9 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## [Usage](docs/USAGE.md)
 
-The link below contains detailed information on all routes and form of authentication.
-
-[Documentation](https://example.com)
+The link above contains detailed information on all routes and form of authentication.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

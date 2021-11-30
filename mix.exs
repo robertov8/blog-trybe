@@ -82,7 +82,7 @@ defmodule Blog.MixProject do
       name: "Blog",
       logo: "assets/logo.png",
       source_url: "https://github.com/robertov8/blog-trybe",
-      extras: ["README.md"],
+      extras: ["README.md", "docs/USAGE.md"],
       groups_for_modules: groups_for_modules()
     ]
   end

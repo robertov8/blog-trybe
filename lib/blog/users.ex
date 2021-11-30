@@ -7,32 +7,17 @@ defmodule Blog.Users do
   alias Blog.Repo
   alias Blog.{Error, Users.User}
 
+  @spec list_users :: nil | [User.t()] | User.t()
   @doc """
   Returns the list of users.
-
-  ## Examples
-
-      iex> list_users()
-      [%User{}, ...]
-
   """
   def list_users do
     Repo.all(User)
   end
 
+  @spec get_user_by_uuid(uuid :: binary()) :: {:ok, [User.t()] | User.t()}
   @doc """
   Gets a single user.
-
-  Raises `Ecto.NoResultsError` if the User does not exist.
-
-  ## Examples
-
-      iex> get_user_by_uuid("c263dd22-9025-4414-89e3-0801ac98a6b9")
-      {:ok, %User{}}
-
-      iex> get_user_by_uuid("123")
-      {:error, reason}
-
   """
   def get_user_by_uuid(uuid) do
     with {:ok, %User{} = user} <- get_user_by(%{id: uuid}) do
@@ -40,6 +25,7 @@ defmodule Blog.Users do
     end
   end
 
+  @spec get_user_by(params :: map()) :: {:ok, User.t()} | {:error, Error.t()}
   def get_user_by(params) do
     case Repo.get_by(User, params) do
       nil -> {:error, Error.build(:not_found, "Usuário não existe")}
@@ -47,17 +33,9 @@ defmodule Blog.Users do
     end
   end
 
+  @spec create_user(attrs :: map() | nil) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
   @doc """
   Creates a user.
-
-  ## Examples
-
-      iex> create_user(%{field: value})
-      {:ok, %User{}}
-
-      iex> create_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def create_user(attrs \\ %{}) do
     %User{}
@@ -65,17 +43,9 @@ defmodule Blog.Users do
     |> Repo.insert()
   end
 
+  @spec delete_user(user :: User.t()) :: {:ok, User.t()} | {:error, Error.t()}
   @doc """
   Deletes a user.
-
-  ## Examples
-
-      iex> delete_user(user)
-      {:ok, %User{}}
-
-      iex> delete_user(user)
-      {:error, %Error{}}
-
   """
   def delete_user(%User{} = user) do
     case Repo.delete(user, stale_error_field: true) do
@@ -84,6 +54,8 @@ defmodule Blog.Users do
     end
   end
 
+  @spec payload_login(attrs :: map() | nil) ::
+          {:ok, Ecto.Schema.t()} | {:error, Ecto.Schema.t()}
   def payload_login(attrs \\ %{}) do
     User.changeset_login(%User{}, attrs)
   end

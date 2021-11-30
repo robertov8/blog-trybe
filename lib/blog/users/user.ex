@@ -9,6 +9,14 @@ defmodule Blog.Users.User do
   @required_params ~w(email password)a
   @optional_params ~w(display_name image)a
 
+  @type t :: %__MODULE__{
+          id: binary() | nil,
+          display_name: binary() | nil,
+          email: binary() | nil,
+          password: binary() | nil,
+          image: binary() | nil
+        }
+
   schema "users" do
     field(:display_name, :string)
     field(:email, :string, default: "")
@@ -19,6 +27,7 @@ defmodule Blog.Users.User do
     timestamps()
   end
 
+  @spec changeset(user :: __MODULE__.t(), attrs :: map()) :: Changeset.t()
   def changeset(user, attrs) do
     user
     |> cast(attrs, @required_params ++ @optional_params)
@@ -35,6 +44,8 @@ defmodule Blog.Users.User do
     |> put_password_hash()
   end
 
+  @spec changeset_login(user :: __MODULE__.t(), attrs :: map()) ::
+          {:ok, Ecto.Schema.t() | map()} | {:error, Ecto.Schema.t()}
   def changeset_login(user, attrs) do
     user
     |> cast(attrs, @required_params)

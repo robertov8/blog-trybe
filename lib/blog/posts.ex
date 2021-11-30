@@ -8,14 +8,9 @@ defmodule Blog.Posts do
 
   alias Blog.{Error, Posts.Post, Users.User}
 
+  @spec list_posts :: nil | [Post.t()] | Post.t()
   @doc """
   Returns the list of posts.
-
-  ## Examples
-
-      iex> list_posts()
-      [%Post{}, ...]
-
   """
   def list_posts do
     Post
@@ -23,25 +18,16 @@ defmodule Blog.Posts do
     |> Repo.preload(:user)
   end
 
+  @spec list_posts_by_term(term :: binary()) :: nil | [Post.t()] | Post.t()
   def list_posts_by_term(term \\ "") do
     from(q in Post, where: like(q.title, ^"%#{term}%") or like(q.content, ^"%#{term}%"))
     |> Repo.all()
     |> Repo.preload(:user)
   end
 
+  @spec get_post_by_uuid(uuid :: binary()) :: {:ok, [Post.t()] | Post.t()}
   @doc """
   Gets a single post.
-
-  Raises `Ecto.NoResultsError` if the Post does not exist.
-
-  ## Examples
-
-      iex> get_post_by_uuid(123)
-      {:ok, %Post{}}
-
-      iex> get_post_by_uuid(456)
-      ** (Ecto.NoResultsError)
-
   """
   def get_post_by_uuid(uuid) do
     case get_post_by(%{id: uuid}) do
@@ -50,6 +36,9 @@ defmodule Blog.Posts do
     end
   end
 
+  @spec get_post_by_user(Blog.Users.User.t(), any) ::
+          {:ok, [Post.t()] | Post.t()}
+          | {:error, Error.t()}
   def get_post_by_user(%User{} = user, uuid) do
     query = posts_user_query(Post, user)
 
@@ -65,6 +54,7 @@ defmodule Blog.Posts do
     end
   end
 
+  @spec get_post_by(params :: map()) :: {:ok, nil | [Post.t()] | Post.t()} | {:error, Error.t()}
   def get_post_by(params) do
     case Repo.get_by(Post, params) do
       nil -> {:error, Error.build(:not_found, "Post não existe")}
@@ -72,17 +62,10 @@ defmodule Blog.Posts do
     end
   end
 
+  @spec create_post(user :: User.t(), attrs :: map() | nil) ::
+          {:ok, nil | [Post.t()] | Post.t()} | {:error, Ecto.Changeset.t()}
   @doc """
   Creates a post.
-
-  ## Examples
-
-      iex> create_post(%{field: value})
-      {:ok, %Post{}}
-
-      iex> create_post(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def create_post(%User{} = user, attrs \\ %{}) do
     changeset =
@@ -96,17 +79,10 @@ defmodule Blog.Posts do
     end
   end
 
+  @spec update_post(post :: Post.t(), attrs :: map()) ::
+          {:ok, nil | Post.t()} | {:error, Ecto.Changeset.t()}
   @doc """
   Updates a post.
-
-  ## Examples
-
-      iex> update_post(post, %{field: new_value})
-      {:ok, %Post{}}
-
-      iex> update_post(post, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def update_post(%Post{} = post, attrs) do
     post
@@ -114,17 +90,9 @@ defmodule Blog.Posts do
     |> Repo.update()
   end
 
+  @spec delete_post(post :: Post.t()) :: {:error, Error.t()} | {:ok, Post.t()}
   @doc """
   Deletes a post.
-
-  ## Examples
-
-      iex> delete_post(post)
-      {:ok, %Post{}}
-
-      iex> delete_post(post)
-      {:error, %Error{}}
-
   """
   def delete_post(%Post{} = post) do
     case Repo.delete(post, stale_error_field: true) do
@@ -133,14 +101,9 @@ defmodule Blog.Posts do
     end
   end
 
+  @spec change_post(post :: Post.t(), attrs :: map()) :: Ecto.Changeset.t()
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking post changes.
-
-  ## Examples
-
-      iex> change_post(post)
-      %Ecto.Changeset{data: %Post{}}
-
   """
   def change_post(%Post{} = post, attrs \\ %{}) do
     Post.changeset(post, attrs)

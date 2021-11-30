@@ -11,6 +11,14 @@ defmodule Blog.Posts.Post do
   @required_params ~w(title content)a
   @optional_params ~w(image user_id)a
 
+  @type t :: %__MODULE__{
+          id: binary() | nil,
+          title: binary() | nil,
+          content: binary() | nil,
+          image: binary() | nil,
+          user_id: binary() | nil
+        }
+
   schema "posts" do
     field(:title, :string)
     field(:content, :string)
@@ -22,6 +30,7 @@ defmodule Blog.Posts.Post do
     timestamps()
   end
 
+  @spec changeset(post :: __MODULE__.t(), attrs :: map()) :: Changeset.t()
   def changeset(post, attrs) do
     post
     |> cast(attrs, @required_params ++ @optional_params)

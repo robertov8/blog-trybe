@@ -5,6 +5,9 @@ defmodule Blog.Error do
 
   defstruct @keys
 
+  @type t :: %__MODULE__{message: atom(), status: binary()}
+
+  @spec build(status :: atom(), message :: binary()) :: t()
   def build(status, message) do
     %__MODULE__{
       status: status,

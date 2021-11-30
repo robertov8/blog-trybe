@@ -1,11 +1,15 @@
 defmodule BlogWeb.Plugs.UUIDChecker do
+  @behaviour Plug
+
   import Plug.Conn
 
   alias Ecto.UUID
   alias Plug.Conn
 
+  @spec init(Keyword.t()) :: Keyword.t()
   def init(options), do: options
 
+  @spec call(conn :: Plug.Conn.t(), opts :: Keyword.t()) :: Plug.Conn.t()
   def call(%Conn{params: %{"uuid" => uuid}} = conn, _opts) do
     case UUID.cast(uuid) do
       :error -> render_error(conn)

@@ -1,6 +1,7 @@
 <div id="top"></div>
 
-<img alt="CircleCI" src="https://img.shields.io/circleci/build/github/robertov8/blog-trybe?style=for-the-badge">
+[![Elixir CI](https://github.com/robertov8/blog-trybe/actions/workflows/elixir.yml/badge.svg)](https://github.com/robertov8/blog-trybe/actions/workflows/elixir.yml)
+[![codecov](https://codecov.io/gh/robertov8/blog-trybe/branch/main/graph/badge.svg?token=V7IWWK88I4)](https://codecov.io/gh/robertov8/blog-trybe)
 
 <!-- PROJECT LOGO -->
 <br />

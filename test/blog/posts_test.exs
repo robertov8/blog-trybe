@@ -61,7 +61,7 @@ defmodule Blog.PostsTest do
     end
   end
 
-  describe "create_user/2" do
+  describe "create_post/2" do
     setup [:post_fixture]
 
     test "when all parameters are valid, return user", %{post: post} do

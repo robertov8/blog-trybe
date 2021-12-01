@@ -97,7 +97,7 @@ The link above contains detailed information on all routes and form of authentic
 
 ## Learn more
 
-* Official website: https://www.phoenixframework.org/
+* Official website: https://www.phoenixframework.org
 * Guides: https://hexdocs.pm/phoenix/overview.html
 * Docs: https://hexdocs.pm/phoenix
 * Forum: https://elixirforum.com/c/phoenix-forum

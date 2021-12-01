@@ -4,7 +4,8 @@ defmodule Blog.UsersTest do
   import Blog.Factory.User
 
   alias Ecto.Changeset
-  alias Blog.{Error, Users, Users.User}
+  alias Blog.{Error, Posts, Users, Users.User}
+  alias Blog.Factory.Post, as: PostFactory
 
   describe "list_users/0" do
     test "when calling listing, return listing with a user" do
@@ -155,6 +156,24 @@ defmodule Blog.UsersTest do
       expected_response = {:error, %Error{message: "Usuário não existe", status: :not_found}}
 
       assert response == expected_response
+    end
+
+    test "when a user has created posts, return an empty posts list" do
+      params = build(:user_params)
+      assert {:ok, user} = Users.create_user(params)
+
+      params = PostFactory.build(:post_params)
+      Posts.create_post(user, params)
+
+      response = Users.delete_user(user)
+
+      assert {:ok,
+              %User{
+                display_name: "Rei do Camarote",
+                email: "rei123@camarote.com",
+                image: "https://storage.googleapis.com/image.png",
+                password: "camarote123"
+              }} = response
     end
   end
 end

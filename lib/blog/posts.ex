@@ -101,12 +101,10 @@ defmodule Blog.Posts do
     end
   end
 
-  @spec change_post(post :: Post.t(), attrs :: map()) :: Ecto.Changeset.t()
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking post changes.
-  """
-  def change_post(%Post{} = post, attrs \\ %{}) do
-    Post.changeset(post, attrs)
+  @spec payload_update(attrs :: map() | nil) ::
+          {:ok, Ecto.Schema.t()} | {:error, Ecto.Schema.t()}
+  def payload_update(attrs \\ %{}) do
+    Post.changeset_update(%Post{}, attrs)
   end
 
   defp posts_user_query(query, %User{id: user_id}) do

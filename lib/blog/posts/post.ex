@@ -40,6 +40,17 @@ defmodule Blog.Posts.Post do
     |> publish_at()
   end
 
+  @spec changeset_update(post :: __MODULE__.t(), attrs :: map()) ::
+          {:ok, Ecto.Schema.t() | map()} | {:error, Ecto.Schema.t()}
+  def changeset_update(post, attrs) do
+    post
+    |> cast(attrs, @required_params ++ @optional_params)
+    |> validate_not_nil(attrs, :title, "is required")
+    |> validate_not_nil(attrs, :content, "is required")
+    |> validate_required(@required_params, message: "is required")
+    |> apply_action(:login)
+  end
+
   defp publish_at(%Changeset{valid?: true, data: %{inserted_at: nil}} = changeset) do
     published = DateTime.truncate(DateTime.utc_now(), :second)
 

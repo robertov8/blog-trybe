@@ -21,7 +21,7 @@ defmodule BlogWeb.PostView do
   end
 
   def render("post_with_user_id.json", %{post: %Post{user: %User{} = user} = post}) do
-    %{id: post.id, title: post.title, userId: user.id}
+    %{id: post.id, title: post.title, content: post.content, userId: user.id}
   end
 
   def render("post.json", %{post: %Post{} = post}) do

@@ -197,7 +197,7 @@ defmodule BlogWeb.PostControllerTest do
         |> authenticate()
         |> Keyword.get(:conn_auth)
 
-      body = build(:post_params, %{title: "Novo titulo", content: nil})
+      body = build(:post_params, %{title: "Novo titulo", content: "Novo conteudo"})
 
       conn_new = put(conn_new, Routes.post_path(conn_new, :update, post.id), body)
 

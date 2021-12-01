@@ -32,9 +32,10 @@ defmodule BlogWeb.PostController do
   end
 
   def update(conn, %{"uuid" => uuid} = post_params, current_user) do
-    with {:ok, %Post{} = post} <- Posts.get_post_by_user(current_user, uuid),
+    with {:ok, %Post{}} <- Posts.payload_update(post_params),
+         {:ok, %Post{} = post} <- Posts.get_post_by_user(current_user, uuid),
          {:ok, %Post{} = post} <- Posts.update_post(post, post_params) do
-      render(conn, "post.json", post: post)
+      render(conn, "show_with_user_id.json", post: post)
     end
   end
 

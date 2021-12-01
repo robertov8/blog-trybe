@@ -6,27 +6,24 @@ defmodule BlogWeb.Auth.ErrorHandler do
 
   @behaviour ErrorHandler
 
+  @spec auth_error(Conn.t(), {any, any}, any) :: Conn.t()
   def auth_error(%Conn{} = conn, {_error, :token_expired}, _opts) do
-    body = Jason.encode!(%{message: "Token expirado ou inválido"})
-
-    render(conn, %{status: :unauthorized, body: body})
+    render(conn, "Token expirado ou inválido")
   end
 
   def auth_error(%Conn{} = conn, {_error, %ArgumentError{}}, _opts) do
-    body = Jason.encode!(%{message: "Token expirado ou inválido"})
-
-    render(conn, %{status: :unauthorized, body: body})
+    render(conn, "Token expirado ou inválido")
   end
 
   def auth_error(%Conn{} = conn, {_error, _reason}, _opts) do
-    body = Jason.encode!(%{message: "Token não encontrado"})
-
-    render(conn, %{status: :unauthorized, body: body})
+    render(conn, "Token não encontrado")
   end
 
-  defp render(%Conn{} = conn, %{status: status, body: body}) do
+  defp render(conn, message) do
+    body = Jason.encode!(%{message: message})
+
     conn
     |> put_resp_header("content-type", "application/json; charset=utf-8")
-    |> send_resp(status, body)
+    |> send_resp(:unauthorized, body)
   end
 end

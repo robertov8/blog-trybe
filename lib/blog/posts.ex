@@ -36,7 +36,7 @@ defmodule Blog.Posts do
     end
   end
 
-  @spec get_post_by_user(Blog.Users.User.t(), any) ::
+  @spec get_post_by_user(User.t(), any) ::
           {:ok, [Post.t()] | Post.t()}
           | {:error, Error.t()}
   def get_post_by_user(%User{} = user, uuid) do
